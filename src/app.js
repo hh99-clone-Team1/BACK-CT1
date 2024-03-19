@@ -2,7 +2,9 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import postRouter from './posts/router/posts.router.js';
+import PostRouter from './posts/router/posts.router.js';
+import SignUpRouter from './users/signUp/router/signUp.router.js';
+import LogInRouter from './users/login/router/login.router.js';
 
 const app = express();
 const PORT = 3000;
@@ -19,7 +21,7 @@ app.use(
 );
 
 // 라우터 설정
-https: app.use('/', [postRouter]);
+app.use('/', [PostRouter, SignUpRouter, LogInRouter]);
 
 app.listen(PORT, () => {
     console.log(`${PORT} 포트로 서버가 열렸어요!`);
