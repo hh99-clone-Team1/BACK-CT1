@@ -1,0 +1,107 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+
+model Users {
+  userId    Int       @id @default(autoincrement()) @map("userId")
+  email     String    @unique @map("email")
+  password  String    @map("password")
+  birthDay  DateTime  @map("birthDay")
+  nickname  String?   @map("nickname")
+  firstName String?   @map("firstName")
+  lastName  String?   @map("lastName")
+  introduce String?   @map("introduce")
+  web       String?   @map("web")
+
+  
+  posts    Posts[]
+  comments Comments[]
+  pins     Pins[]
+  likes    Likes[]
+
+  @@map("Users")
+}
+
+
+model Posts {
+  postId        Int        @id    @default(autoincrement())   @map("postId")
+  title         String     @map("title")
+  content       String?    @map("content")
+  link          String?    @map("link")
+  createdAt     DateTime   @default(now())  @map("createdAt")
+  updatedAt     DateTime?  @map("updatedAt")
+
+  userId        Int        @map("userId")
+  user          Users      @relation(fields: [userId], references: [userId], onDelete: Cascade)
+
+  image   Images?
+
+  comments  Comments[]
+  pins      Pins[]
+  likes     Likes[]
+  
+  @@map("Posts")
+}
+
+
+model Comments{
+  commentId    Int       @id @default(autoincrement()) @map("commentId")
+  content      String    @map("content")
+  createdAt    DateTime  @default(now())  @map("createdAt")
+  userId       Int       @map("userId")
+  postId       Int       @map("postId")
+  
+  user   Users @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  post         Posts     @relation(fields: [postId], references: [postId], onDelete: Cascade)
+  
+  @@map("Comments")
+}
+
+
+model Likes {
+  likeId    Int     @id   @default(autoincrement()) @map("likeId")
+  likeCheck Boolean       @default(false)           @map("likeCheck")
+
+  userId    Int  @map("userId")
+  postId    Int  @map("postId")
+  
+  user   Users @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  post   Posts @relation(fields: [postId], references: [postId], onDelete: Cascade)
+
+  @@map("Likes")
+}
+
+
+model Pins{
+  pinId   Int  @id @default(autoincrement()) @map("pinId")
+  userId  Int  @map("userId")
+  postId  Int  @map("postId")
+    
+  user  Users @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  post  Posts @relation(fields: [postId], references: [postId], onDelete: Cascade)
+
+  @@map("Pins")
+}
+
+
+model Images{
+  imageId Int       @id @default(autoincrement()) @map("imageId")
+  url     String    @map("url")
+
+  post    Posts   @relation(fields: [postId], references: [postId])
+  postId  Int     @unique
+  
+  @@map("Images")
+}
