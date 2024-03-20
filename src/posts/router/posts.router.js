@@ -30,6 +30,7 @@ router.get('/posts/search/:keyword', authMiddleware, searchPostsByKeywordControl
 
 //게시글 수정
 router.put('/posts/:postId', authMiddleware, updatePostController);
+
 // 게시글 삭제
 router.delete('/posts/:postId', authMiddleware, deletePostController);
 

@@ -1,8 +1,8 @@
 import * as postRepository from '../repository/postRepository.js ';
 
 // 게시물 등록
-export const createPost = async ({ userId, title, content, link }) => {
-    return await postRepository.createPost({ userId, title, content, link });
+export const createPost = async ({ userId, title, content, link, imageId }) => {
+    return await postRepository.createPost({ userId, title, content, link, imageId });
 };
 
 // 전체 게시물 조회
@@ -38,8 +38,8 @@ export const searchPostsByKeyword = async (keyword) => {
 };
 
 // 게시물 수정
-export const updatePost = async (postId, { title, content, link }) => {
-    return await postRepository.updatePost(postId, { title, content, link });
+export const updatePost = async (postId, { title, content, link, imageId }) => {
+    return await postRepository.updatePost(postId, { title, content, link, imageId });
 };
 
 // 게시물 삭제

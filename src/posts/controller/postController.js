@@ -9,10 +9,10 @@ export const createPostController = async (req, res, next) => {
         if (error) {
             return res.status(400).json({ message: '데이터 형식이 올바르지 않습니다.' });
         }
-        const { title, content, link } = value;
+        const { title, content, link, imageId } = value;
 
         // 게시물 생성
-        const post = await postService.createPost({ userId, title, content, link });
+        const post = await postService.createPost({ userId, title, content, link, imageId });
         res.status(201).json({ message: '게시물 등록이 완료되었습니다' });
     } catch (error) {
         console.error(error);
@@ -82,7 +82,11 @@ export const updatePostController = async (req, res, next) => {
     try {
         const { userId } = res.locals.user;
         const postId = parseInt(req.params.postId);
-        const { title, content, link } = req.body;
+        const { error, value } = postSchema.validate(req.body, { abortEarly: false });
+        if (error) {
+            return res.status(400).json({ message: '데이터 형식이 올바르지 않습니다.' });
+        }
+        const { title, content, link, imageId } = value;
 
         const post = await postService.getPostByPostId(+postId);
 
@@ -92,7 +96,7 @@ export const updatePostController = async (req, res, next) => {
         }
 
         // 게시물 업데이트
-        const updatedPost = await postService.updatePost(postId, { title, content, link });
+        const updatedPost = await postService.updatePost(postId, { title, content, link, imageId });
         res.status(200).json(updatedPost);
     } catch (error) {
         console.error(error);
