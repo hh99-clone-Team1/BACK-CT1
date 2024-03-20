@@ -48,6 +48,8 @@ model Posts {
 
   image   Images?
 
+
+
   comments  Comments[]
   pins      Pins[]
   likes     Likes[]
