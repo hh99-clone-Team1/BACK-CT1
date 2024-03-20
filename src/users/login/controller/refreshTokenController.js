@@ -10,6 +10,7 @@ export const refreshTokenController = async (req, res, next) => {
         // 리프레시 토큰을 쿠키에 설정
         res.cookie('refreshToken', `Bearer ${newRefreshToken}`, { httpOnly: true });
 
+        // 액세스 토큰을 body에 설정
         return res.status(200).json({
             message: 'refresh 토큰이 재발급 되었습니다',
             accessToken: `Bearer ${accessToken}`,

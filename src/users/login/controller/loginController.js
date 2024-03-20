@@ -9,6 +9,7 @@ export const loginController = async (req, res, next) => {
         // 리프레시 토큰을 쿠키에 설정
         res.cookie('refreshToken', `Bearer ${refreshToken}`, { httpOnly: true });
 
+        // 액세스 토큰을 body에 설정
         return res.status(200).json({
             message: '로그인에 성공하였습니다',
             accessToken: `Bearer ${accessToken}`,

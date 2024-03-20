@@ -23,12 +23,13 @@ export const login = async (email, password) => {
         throw err;
     }
 
-    // 토큰 생성
+    // 액세스 토큰 생성
     const accessToken = jwt.sign(
         { userId: user.userId, email: user.email, nickname: user.nickname },
         process.env.ACCESS_TOKEN_SECRET,
         { expiresIn: '38m' },
     );
+    // 리프레시 토큰 생성
     const refreshToken = jwt.sign(
         { userId: user.userId, email: user.email, nickname: user.nickname },
         process.env.REFRESH_TOKEN_SECRET,
