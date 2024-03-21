@@ -3,7 +3,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import PostRouter from './posts/router/posts.router.js';
-import SignUpRouter from './users/signUp/router/signUp.router.js';
+import SignUpRouter from './users/signup/router/signup.router.js';
 import LogInRouter from './users/login/router/login.router.js';
 
 const app = express();
