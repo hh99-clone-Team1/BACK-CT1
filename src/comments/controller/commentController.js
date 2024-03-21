@@ -1,5 +1,5 @@
 import * as CommentService from '../service/commentService.js';
-import schemas from '../../utils/joi.schemas/commentSchema.js';
+import schemas from '../../utils/joi.schemas/commentSchema.js'; //
 
 // 댓글 스키마
 const [commentSchema, commentDetailSchema] = schemas;

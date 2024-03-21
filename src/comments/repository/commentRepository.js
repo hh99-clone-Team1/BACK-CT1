@@ -1,4 +1,4 @@
-import { prisma } from '../../utils/prisma/index.js'; // 프리즈마 인스턴스 사용
+import { prisma } from '../../utils/prisma/index.js'; // 프리즈마 인스턴스 사용 //
 
 // 댓글이 작성된 게시글 찾기
 export const checkPostExists = async ({ postId }) => {
