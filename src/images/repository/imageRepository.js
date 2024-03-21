@@ -37,7 +37,13 @@ export const getImageById = async (imageId) => {
 
 // imageId로 이미지 삭제
 export const deleteImageById = async (imageId) => {
-    return await prisma.images.delete({
-        where: { imageId: parseInt(imageId) },
-    });
+    try {
+        await prisma.images.delete({
+            where: { imageId: parseInt(imageId) },
+        });
+        return true; // 삭제 성공
+    } catch (error) {
+        console.error('이미지 삭제 중 오류:', error);
+        throw new Error('이미지 삭제 실패');
+    }
 };

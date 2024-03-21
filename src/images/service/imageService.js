@@ -54,6 +54,10 @@ export const deleteImage = async (imageId, userId) => {
     try {
         // 이미지를 삭제 권한 확인
         const image = await imageRepository.getImageById(imageId);
+        if (!image) {
+            throw new Error('해당 이미지가 존재하지 않습니다');
+        }
+
         if (image.userId !== userId) {
             throw new Error('이미지를 삭제할 수 있는 권한이 없습니다');
         }
@@ -80,6 +84,6 @@ export const deleteImage = async (imageId, userId) => {
         return true; // 삭제가 성공했음을 나타내기 위해 true를 반환합니다
     } catch (error) {
         console.error('이미지 삭제 중 오류:', error);
-        throw new Error('이미지 삭제 실패');
+        throw error; // 오류를 그대로 전달합니다
     }
 };
