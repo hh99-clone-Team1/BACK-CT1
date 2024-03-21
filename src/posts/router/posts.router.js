@@ -25,7 +25,7 @@ router.get('/posts/user/:userId', authMiddleware, getPostsByUserIdController);
 // 게시글 상세 조회
 router.get('/posts/:postId', authMiddleware, getPostDetailController);
 
-//게시글 검색시 조회
+//게시글 키워드 검색 조회
 router.get('/posts/search/:keyword', authMiddleware, searchPostsByKeywordController);
 
 //게시글 수정
