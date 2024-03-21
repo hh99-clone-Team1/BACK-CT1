@@ -35,5 +35,3 @@ router.put('/posts/:postId', authMiddleware, updatePostController);
 router.delete('/posts/:postId', authMiddleware, deletePostController);
 
 export default router;
-
-//
