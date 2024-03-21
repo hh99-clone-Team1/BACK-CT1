@@ -10,18 +10,31 @@ export const createPost = async ({ userId, title, content, link, imageId }) => {
             link,
             imageId,
         },
+        include: {
+            user: {
+                select: {
+                    nickname: true,
+                },
+            },
+        },
     });
 };
 
 // 전체 게시물 조회
 export const getAllPosts = async () => {
     return await prisma.posts.findMany({
-        include: {
-            image: {
-                select: {
-                    url: true,
-                },
-            },
+        select: {
+            postId: true,
+            title: true,
+            content: true,
+            link: true,
+            createdAt: true,
+            userId: true,
+            imageId: true,
+            // user: { select: { nickname: true } }, // user 객체에서 닉네임 선택
+        },
+        orderBy: {
+            createdAt: 'desc',
         },
     });
 };
@@ -32,13 +45,25 @@ export const getPostsByUserId = async (userId) => {
         where: {
             userId: userId,
         },
-        include: {
-            image: {
-                select: {
-                    url: true,
-                },
-            },
+        select: {
+            postId: true,
+            title: true,
+            content: true,
+            link: true,
+            createdAt: true,
+            user: { select: { userId: true, nickname: true } },
+            image: { select: { imageId: true, url: true } },
         },
+        orderBy: {
+            createdAt: 'desc',
+        },
+        // include: {
+        //     image: {
+        //         select: {
+        //             url: true,
+        //         },
+        //     },
+        // },
     });
 };
 
@@ -46,16 +71,17 @@ export const getPostsByUserId = async (userId) => {
 export const getPostByPostId = async (postId) => {
     return await prisma.posts.findFirst({
         where: { postId },
-        include: {
-            image: {
-                select: {
-                    url: true,
-                },
-            },
+        select: {
+            postId: true,
+            title: true,
+            content: true,
+            link: true,
+            createdAt: true,
+            user: { select: { userId: true, nickname: true } },
+            image: { select: { imageId: true, url: true } },
         },
     });
 };
-
 //게시물 키워드 검색
 export const searchPostsByKeyword = async (keyword) => {
     return await prisma.posts.findMany({
@@ -68,6 +94,9 @@ export const searchPostsByKeyword = async (keyword) => {
                     url: true,
                 },
             },
+        },
+        orderBy: {
+            createdAt: 'desc',
         },
     });
 };
@@ -88,8 +117,11 @@ export const updatePost = async (postId, { title, content, link, imageId }) => {
 };
 
 // 게시물 삭제
+
 export const deletePost = async (postId) => {
     return await prisma.posts.delete({
         where: { postId: postId },
     });
 };
+
+//
