@@ -21,7 +21,6 @@ export const createPostController = async (req, res, next) => {
 };
 
 // 게시물 전체 조회
-
 export const getAllPostsController = async (req, res, next) => {
     try {
         const posts = await postService.getAllPosts();
@@ -111,7 +110,6 @@ export const updatePostController = async (req, res, next) => {
 };
 
 // 게시물 삭제
-
 export const deletePostController = async (req, res, next) => {
     try {
         const { userId } = res.locals.user;
@@ -132,5 +130,3 @@ export const deletePostController = async (req, res, next) => {
         next(error);
     }
 };
-
-//

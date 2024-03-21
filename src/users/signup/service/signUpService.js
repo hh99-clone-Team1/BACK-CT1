@@ -19,7 +19,7 @@ export const signUp = async ({ email, nickname, password, birthDay }) => {
     const hashedPassword = await argon2.hash(password); // argon2를 사용하여 비밀번호 해싱
     const user = await SingUpRepository.signUp({
         email,
-        nickname : nickname,
+        nickname: nickname,
         password: hashedPassword,
         birthDay,
     });
