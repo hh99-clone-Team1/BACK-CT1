@@ -1,4 +1,4 @@
-import * as SingUpRepository from '../repository/signUpRepository.js'; //
+import * as SingUpRepository from '../repository/signUpRepository.js';
 import * as argon2 from 'argon2';
 
 export const signUp = async ({ email, nickname, password, birthDay }) => {
