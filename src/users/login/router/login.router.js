@@ -27,12 +27,12 @@ router.post('/login', async (req, res, next) => {
 
         // 토큰 생성
         const accessToken = jwt.sign(
-            { id: user.id, email: user.email, nickname: user.nickname },
+            { userId: user.userId, email: user.email, nickname: user.nickname },
             process.env.ACCESS_TOKEN_SECRET,
             { expiresIn: '38m' },
         );
         const refreshToken = jwt.sign(
-            { id: user.id, email: user.email, nickname: user.nickname },
+            { userId: user.userId, email: user.email, nickname: user.nickname },
             process.env.REFRESH_TOKEN_SECRET,
             { expiresIn: '1d' },
         );
@@ -58,7 +58,7 @@ router.post('/refresh', async (req, res) => {
     if (!authorization) return res.status(401).json({ message: 'Refresh Token을 전달받지 못했습니다.' });
 
     // 인증 정보가 있는 경우, 리프레시 토큰을 추출
-    const [bearer, refreshToken] = authorization.split('%20');
+    const [bearer, refreshToken] = authorization.split('%20'); // 공백????
     // // 만약 토큰 타입이 Bearer가 아닐때 오류 메세지
     if (bearer !== 'Bearer') return res.status(401).json({ message: '토큰 타입이 Bearer 형식이 아닙니다' });
 
@@ -70,18 +70,18 @@ router.post('/refresh', async (req, res) => {
 
         // 토큰 생성
         const accessToken = jwt.sign(
-            { id: decodedRefreshToken.id, email: decodedRefreshToken.email, nickname: decodedRefreshToken },
+            { userId: decodedRefreshToken.userId, email: decodedRefreshToken.email, nickname: decodedRefreshToken },
             process.env.ACCESS_TOKEN_SECRET,
             { expiresIn: '38m' },
         );
         const newRefreshToken = jwt.sign(
-            { id: decodedRefreshToken.id, email: decodedRefreshToken.email, nickname: decodedRefreshToken },
+            { userId: decodedRefreshToken.userId, email: decodedRefreshToken.email, nickname: decodedRefreshToken },
             process.env.REFRESH_TOKEN_SECRET,
             { expiresIn: '1d' },
         );
 
         // 리프레시 토큰을 쿠키에 설정
-        res.cookie('refreshToken', `Bearer ${refreshToken}`, { httpOnly: true });
+        res.cookie('refreshToken', `Bearer ${newRefreshToken}`, { httpOnly: true }); // 여기 재발급한 refresh로 바꿔야함
         // res.cookie('accessToken', `Bearer ${accessToken}`, { httpOnly: true });
 
         return res.status(200).json({
