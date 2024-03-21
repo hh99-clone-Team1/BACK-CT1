@@ -1,4 +1,4 @@
-import * as LoginRepository from '../repository/loginRepository.js'; //
+import * as LoginRepository from '../repository/loginRepository.js';
 import * as argon2 from 'argon2';
 import jwt from 'jsonwebtoken';
 
