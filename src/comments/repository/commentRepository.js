@@ -1,4 +1,4 @@
-import { prisma } from '../../utils/prisma/index.js';
+import { prisma } from '../../utils/prisma/index.js'; // 프리즈마 인스턴스 사용
 
 // 댓글이 작성된 게시글 찾기
 export const checkPostExists = async ({ postId }) => {
@@ -11,6 +11,9 @@ export const checkPostExists = async ({ postId }) => {
 export const createComment = async ({ postId, userId, content }) => {
     return await prisma.comments.create({
         data: { content, postId, userId },
+        include: {
+            user: { select: { nickname: true } },
+        },
     });
 };
 
@@ -35,6 +38,9 @@ export const updateComment = async ({ postId, commentId, userId, content }) => {
     return await prisma.comments.update({
         data: { content: content },
         where: { postId: +postId, commentId: +commentId, userId: +userId },
+        include: {
+            user: { select: { nickname: true } },
+        },
     });
 };
 

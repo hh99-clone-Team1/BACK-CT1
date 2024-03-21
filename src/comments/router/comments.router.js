@@ -10,7 +10,7 @@ import {
 
 let router = express.Router();
 
-// 댓글 작성
+// 댓글 작성 라우터
 router.post('/posts/:postId/comments', authMiddleware, createCommentController);
 
 // 댓글 조회
