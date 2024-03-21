@@ -1,4 +1,4 @@
-import * as CommentRepository from '../repository/commentRepository.js'; //
+import * as CommentRepository from '../repository/commentRepository.js';
 
 // 댓글 작성
 export const createComment = async ({ postId, userId, content }) => {
