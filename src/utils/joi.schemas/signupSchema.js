@@ -3,7 +3,8 @@ import Joi from 'joi';
 const signUpSchema = Joi.object({
     email: Joi.string().email().required(),
     // nickname: Joi.string().min(3).max(15),
-    birthDay: Joi.date().required(),
+    // birthDay: Joi.date().required(),
+    birthDay: Joi.string().isoDate().required(),
     password: Joi.string()
         .min(6)
         .max(20)

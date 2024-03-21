@@ -55,6 +55,7 @@ export const getPostByPostId = async (postId) => {
         },
     });
 };
+
 //게시물 키워드 검색
 export const searchPostsByKeyword = async (keyword) => {
     return await prisma.posts.findMany({
@@ -87,11 +88,8 @@ export const updatePost = async (postId, { title, content, link, imageId }) => {
 };
 
 // 게시물 삭제
-
 export const deletePost = async (postId) => {
     return await prisma.posts.delete({
         where: { postId: postId },
     });
 };
-
-//
