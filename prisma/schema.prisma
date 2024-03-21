@@ -47,8 +47,8 @@ model Posts {
   userId        Int        @map("userId")
   user          Users      @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
-    image?   Images?
-    imageId   Int  @map("imageId")
+  image   Images?
+  imageId   Int  @map("imageId")
 
 
 
