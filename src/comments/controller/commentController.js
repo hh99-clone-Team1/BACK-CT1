@@ -1,6 +1,7 @@
 import * as CommentService from '../service/commentService.js';
 import schemas from '../utils/schemas/commentSchema.js';
 
+// 댓글 스키마
 const [commentSchema, commentDetailSchema] = schemas;
 
 // 댓글 작성

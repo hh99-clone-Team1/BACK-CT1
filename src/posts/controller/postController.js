@@ -65,6 +65,9 @@ export const getPostDetailController = async (req, res, next) => {
 export const searchPostsByKeywordController = async (req, res, next) => {
     try {
         const { keyword } = req.params;
+        if (!keyword) {
+            return res.status(400).json({ message: '키워드를 입력해주세요.' });
+        }
         const posts = await postService.searchPostsByKeyword(keyword);
         res.status(200).json(posts);
     } catch (error) {

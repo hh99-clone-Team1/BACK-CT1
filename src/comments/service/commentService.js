@@ -2,6 +2,7 @@ import * as CommentRepository from '../repository/commentRepository.js';
 
 // 댓글 작성
 export const createComment = async ({ postId, userId, content }) => {
+    // 댓글이 작성된 게시글이 있는지 없는지 조회
     const post = await CommentRepository.checkPostExists({ postId: +postId });
     if (!post) {
         const err = new Error('존재하지 않는 게시글입니다.');
