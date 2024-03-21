@@ -52,15 +52,34 @@ export const getImagesByUserId = async (userId) => {
 // 이미지 삭제
 export const deleteImage = async (imageId, userId) => {
     try {
-        // 이미지 업로드한 본인만 삭제 가능
+        // 이미지를 삭제 권한 확인
         const image = await imageRepository.getImageById(imageId);
         if (image.userId !== userId) {
-            throw new Error('이미지를 삭제할수 있는 권한이 없습니다');
+            throw new Error('이미지를 삭제할 수 있는 권한이 없습니다');
         }
 
-        // 이미지 삭제
+        //S3에서도 삭제
+        // 이미지 URL에서 파일 이름을 추출
+        const filename = image.url.split('/').pop();
+
+        // S3에서 이미지를 삭제하기 위한 키를 준비합니다
+        const s3Key = `${userId}/${filename}`;
+
+        // S3에서 이미지를 삭제하는 데 필요한 매개변수를 준비합니다
+        const s3Params = {
+            Bucket: process.env.AWS_BUCKET_NAME,
+            Key: s3Key,
+        };
+
+        // S3에서 이미지를 삭제합니다
+        await s3.deleteObject(s3Params).promise();
+
+        // 데이터베이스에서 이미지를 삭제합니다
         await imageRepository.deleteImageById(imageId);
+
+        return true; // 삭제가 성공했음을 나타내기 위해 true를 반환합니다
     } catch (error) {
-        throw new Error('이미지 삭제에 실패했습니다');
+        console.error('이미지 삭제 중 오류:', error);
+        throw new Error('이미지 삭제 실패');
     }
 };
