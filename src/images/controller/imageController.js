@@ -1,1 +1,1 @@
-import * as ImageService from '../service/imageService.js';
+import imageService from '../service/imageService.js';
