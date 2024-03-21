@@ -49,6 +49,9 @@ model Posts {
   image   Images?
   imageId  Int?    @map("imageId") // 선택적 관계를 위해 `Int` 타입도 옵셔널로 변경할 수 있습니다.
 
+  image   Images?
+  imageId   Int  @map("imageId")
+
   comments  Comments[]
   pins      Pins[]
   likes     Likes[]
