@@ -21,7 +21,7 @@ export const signUp = async ({ email, nickname, password, birthDay }) => {
         email,
         nickname : nickname,
         password: hashedPassword,
-        birthDay,
+        birthDay: new Date(birthDay),
     });
 
     return user;
