@@ -36,6 +36,9 @@ router.post('/pins/:postId', authmiddleware, async (req, res) => {
         where: {
           userId: userId.userId,
         },
+        include: {
+          post: true, // `post`는 `pins` 테이블과 연결된 `posts` 테이블을 가리킵니다.
+        },
       });
   
       // 조회된 핀들을 반환
