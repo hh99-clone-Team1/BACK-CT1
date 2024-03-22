@@ -6,6 +6,7 @@ import PostRouter from './posts/router/posts.router.js';
 import SignUpRouter from './users/signUp/router/signUp.router.js';
 import LogInRouter from './users/login/router/login.router.js';
 import ImageRouter from './images/router/images.router.js';
+import pinrouter from './pins/router/pins.router.js';
 
 const app = express();
 const PORT = 3000;
@@ -22,7 +23,7 @@ app.use(
 );
 
 // 라우터 설정
-app.use('/', [PostRouter, SignUpRouter, LogInRouter, ImageRouter]);
+app.use('/', [PostRouter, SignUpRouter, LogInRouter, ImageRouter,pinrouter]);
 
 app.listen(PORT, () => {
     console.log(`${PORT} 포트로 서버가 열렸어요!`);

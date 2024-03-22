@@ -28,7 +28,7 @@ model Users {
   
   posts    Posts[]
   comments Comments[]
-  pins     Pins[]
+  //pins     Pins[]
   likes    Likes[]
   images   Images[]
 
@@ -94,7 +94,7 @@ model Pins{
   userId  Int  @map("userId")
   postId  Int  @map("postId")
     
-  user  Users @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  //user  Users @relation(fields: [userId], references: [userId], onDelete: Cascade)
   post  Posts @relation(fields: [postId], references: [postId], onDelete: Cascade)
 
   @@map("Pins")
