@@ -13,7 +13,7 @@ export const createPostController = async (req, res, next) => {
 
         // 게시물 생성
         const post = await postService.createPost({ userId, title, content, link, imageId });
-        res.status(201).json({ message: '게시물 등록이 완료되었습니다' });
+        res.status(201).json({ post });
     } catch (error) {
         console.error(error);
         next(error);
@@ -50,7 +50,7 @@ export const getPostsByUserIdController = async (req, res, next) => {
 export const getPostDetailController = async (req, res, next) => {
     try {
         const postId = parseInt(req.params.postId);
-        const post = await postService.getPostByPostId(+postId);
+        const post = await postService.getPostByPostId(postId);
         res.status(200).json(post);
     } catch (error) {
         console.error(error);

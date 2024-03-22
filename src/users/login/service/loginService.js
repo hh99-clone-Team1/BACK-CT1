@@ -27,7 +27,7 @@ export const login = async (email, password) => {
     const accessToken = jwt.sign(
         { userId: user.userId, email: user.email, nickname: user.nickname },
         process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: '38m' },
+        { expiresIn: '5h' },
     );
     // 리프레시 토큰 생성
     const refreshToken = jwt.sign(
