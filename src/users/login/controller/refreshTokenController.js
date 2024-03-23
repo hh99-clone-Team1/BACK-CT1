@@ -8,7 +8,9 @@ export const refreshTokenController = async (req, res, next) => {
         const { accessToken, newRefreshToken } = await RefreshTokenService.refreshToken(authorization);
 
         // 리프레시 토큰을 쿠키에 설정
-        res.cookie('refreshToken', `Bearer ${newRefreshToken}`, { httpOnly: true });
+        // res.cookie('refreshToken', `Bearer ${newRefreshToken}`, { httpOnly: true });
+        // 리프레시 토큰을 헤더에 설정
+        res.header('refreshToken', `Bearer ${newRefreshToken}`);
 
         // 액세스 토큰을 body에 설정
         return res.status(200).json({
