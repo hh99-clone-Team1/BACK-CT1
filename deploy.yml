@@ -5,9 +5,9 @@ name: deploy
 
 on:
     push:
-        branches: [dev]
+        branches: dev
     pull_request:
-        branches: [dev]
+        branches: dev
 
 jobs:
     build:
@@ -15,7 +15,7 @@ jobs:
 
         strategy:
             matrix:
-                node-version: [18.19.1]
+                node-version: 18.19.1
 
         steps:
             - name: Checkout source code.
