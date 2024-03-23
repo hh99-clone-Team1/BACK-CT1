@@ -159,7 +159,7 @@ export const updatePost = async (postId, { title, content, link, imageId }) => {
             link: true,
             createdAt: true,
             userId: true,
-            image: { select: { url: true } },
+            image: { select: { imageId: true, url: true } },
             user: { select: { nickname: true } },
         },
     });
@@ -168,13 +168,13 @@ export const updatePost = async (postId, { title, content, link, imageId }) => {
         updatedPost.nickname = updatedPost.user.nickname;
         delete updatedPost.user;
 
+        updatedPost.imageId = updatedPost.image.imageId;
         updatedPost.url = updatedPost.image.url;
         delete updatedPost.image;
     }
 
     return updatedPost;
 };
-
 // 게시물 삭제
 
 export const deletePost = async (postId) => {
