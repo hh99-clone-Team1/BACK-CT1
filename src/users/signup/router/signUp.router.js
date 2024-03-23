@@ -1,5 +1,5 @@
 import express from 'express';
-import logMiddleware from '../../../middlewares/log.middleware.js';
+import logMiddleware from '../../../middlewares/log.middleware.js'; //
 
 import { signUpController } from '../controller/signUpController.js';
 

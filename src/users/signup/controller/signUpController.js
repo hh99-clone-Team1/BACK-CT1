@@ -1,4 +1,4 @@
-import * as SignUpService from '../service/signUpService.js'; //
+import * as SignUpService from '../service/signUpService.js';
 import signUpSchema from '../../../utils/joi.schemas/signupSchema.js';
 
 export const signUpController = async (req, res, next) => {

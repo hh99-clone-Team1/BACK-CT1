@@ -7,7 +7,8 @@ export const loginController = async (req, res, next) => {
         const { accessToken, refreshToken } = await LoginService.login(email, password);
 
         // 리프레시 토큰을 쿠키에 설정
-        res.cookie('refreshToken', `Bearer ${refreshToken}`, { httpOnly: true });
+        // res.cookie('refreshToken', `Bearer ${refreshToken}`, { httpOnly: true });
+        res.header('refreshToken', `Bearer ${refreshToken}`);
 
         // 액세스 토큰을 body에 설정
         return res.status(200).json({
