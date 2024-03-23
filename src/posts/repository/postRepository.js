@@ -81,29 +81,81 @@ export const getPostsByUserId = async (userId) => {
 };
 
 //게시물 상세 조회
-export const getPostByPostId = async (postId) => {
+export const getPostByPostId = async (postId, userId) => {
     const post = await prisma.posts.findFirst({
         where: { postId },
-        select: {
-            postId: true,
-            title: true,
-            content: true,
-            link: true,
-            createdAt: true,
-            userId: true,
+        include: {
             user: { select: { nickname: true } },
             image: { select: { imageId: true, url: true } },
+            likes: {
+                where: {
+                    likeCheck: true, // 좋아요가 활성화된 항목만 포함
+                },
+            },
+            _count: {
+                select: {
+                    likes: {
+                        where: {
+                            likeCheck: true, // 좋아요가 활성화된 항목만 카운트
+                        },
+                    },
+                },
+            },
         },
     });
 
-    // // 게시물 정보에 사용자의 닉네임 추가
+    // if (post) {
+    //     const { _count, user, image, likes, ...rest } = post;
+    //     const enhancedPost = {
+    //         ...rest,
+    //         nickname: user.nickname,
+    //         url: image?.url,
+    //         imageId: image?.imageId,
+    //         likeCount: _count.likes,
+    //         isLikedByUser: likes.some((like) => like.userId === userId),
+    //     };
+    //     return enhancedPost;
+    // }
     if (post) {
-        post.nickname = post.user.nickname;
-        delete post.user;
+        // 각 게시물에 대해 사용자별 좋아요 상태 및 좋아요 총 수 포함하여 반환
+        const isLikedByUser = post.likes.some((like) => like.userId === userId && like.likeCheck);
+        return {
+            ...post,
+            nickname: post.user.nickname,
+            url: post.image?.url,
+            imageId: post.image?.imageId,
+            likeCount: post._count.likes, // 좋아요 총 개수 (likeCheck가 true인 경우만 카운트)
+            isLikedByUser, // 현재 사용자가 좋아요 눌렀는지 여부 (likeCheck를 고려)
+        };
     }
 
-    return post;
+    return null;
 };
+// 게시물 상세 조회 : 원래 재훈님 코드
+// export const getPostByPostId = async (postId, userId) => {
+//     const post = await prisma.posts.findFirst({
+//         where: { postId },
+//         select: {
+//             postId: true,
+//             title: true,
+//             content: true,
+//             link: true,
+//             createdAt: true,
+//             userId: true,
+//             user: { select: { nickname: true } },
+//             image: { select: { imageId: true, url: true } },
+//         },
+//     });
+
+//     // // 게시물 정보에 사용자의 닉네임 추가
+//     if (post) {
+//         post.nickname = post.user.nickname;
+//         delete post.user;
+//     }
+
+//     return post;
+// };
+
 //게시물 키워드 검색
 export const searchPostsByKeyword = async (keyword) => {
     const posts = await prisma.posts.findMany({
@@ -158,5 +210,3 @@ export const deletePost = async (postId) => {
         where: { postId: postId },
     });
 };
-
-//

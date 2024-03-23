@@ -50,7 +50,10 @@ export const getPostsByUserIdController = async (req, res, next) => {
 export const getPostDetailController = async (req, res, next) => {
     try {
         const postId = parseInt(req.params.postId);
-        const post = await postService.getPostByPostId(postId);
+        const userId = res.locals.user.userId;
+
+        const post = await postService.getPostByPostId(postId, userId);
+
         res.status(200).json(post);
     } catch (error) {
         console.error(error);
