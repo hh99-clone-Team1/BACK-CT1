@@ -12,5 +12,5 @@ export default function logMiddleware(req, res, next) {
         next(); // 다음 미들웨어 또는 라우터 핸들러로 넘깁니다.
     } catch (error) {
         next(error); // 에러가 발생하면 다음 에러 처리 미들웨어
-    } //
+    }
 }
