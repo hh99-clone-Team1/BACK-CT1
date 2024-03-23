@@ -15,6 +15,8 @@ import ImageRouter from './images/router/images.router.js';
 
 import NodeMailerRouter from './config/email.js';
 
+import logMiddleware from './middlewares/log.middleware.js';
+
 const app = express();
 const PORT = 3000;
 
@@ -29,6 +31,8 @@ app.use(
         credentials: 'true' // 사용자 인증이 필요한 리소스(쿠키 ..등) 접근
     }),
 );
+
+app.use(logMiddleware);
 
 // 라우터 설정
 app.use('/', [PostRouter, SignUpRouter, LogInRouter, RefreshTokenRouter, CommentRouter, LikeRouter, ImageRouter, pinRouter]);
