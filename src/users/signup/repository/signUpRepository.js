@@ -5,6 +5,7 @@ export const findExistingUserByEmail = async (email) => {
     return await prisma.users.findFirst({ where: { email } });
 };
 
+// 회원가입
 export const signUp = async ({ email, nickname, password, birthDay }) => {
     return await prisma.users.create({
         data: {

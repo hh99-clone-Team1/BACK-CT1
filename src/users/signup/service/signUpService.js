@@ -10,13 +10,19 @@ export const signUp = async ({ email, nickname, password, birthDay }) => {
         throw err;
     }
 
+    // nickname이 제공되지 않았다면 이메일의 @ 이전 문자열을 사용
+    if (!nickname) {
+        nickname = email.split('@')[0];
+    }
+
     // 아르곤2 사용해서 비밀번호 해쉬
     const hashedPassword = await argon2.hash(password); // argon2를 사용하여 비밀번호 해싱
+
     const user = await SingUpRepository.signUp({
         email,
-        nickname,
+        nickname: nickname,
         password: hashedPassword,
-        birthDay,
+        birthDay: new Date(birthDay),
     });
 
     return user;

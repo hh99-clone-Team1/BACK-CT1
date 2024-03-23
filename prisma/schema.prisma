@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -25,11 +19,11 @@ model Users {
   introduce String?   @map("introduce")
   web       String?   @map("web")
 
-  
   posts    Posts[]
   comments Comments[]
   pins     Pins[]
   likes    Likes[]
+  images   Images[]
 
   @@map("Users")
 }
@@ -46,9 +40,8 @@ model Posts {
   userId        Int        @map("userId")
   user          Users      @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
-    image   Images?
-    imageId   Int  @map("imageId")
-
+  imageId       Int?       @db.Int
+  image         Images?    @relation(fields: [imageId], references: [imageId], onDelete: Cascade)
 
 
 
@@ -58,6 +51,7 @@ model Posts {
   
   @@map("Posts")
 }
+
 
 
 model Comments{
@@ -100,12 +94,14 @@ model Pins{
 }
 
 
-model Images{
-  imageId Int       @id @default(autoincrement()) @map("imageId")
-  url     String    @map("url")
+model Images {
+  imageId Int @id @default(autoincrement()) @map("imageId")
+  url     String @map("url")
 
-  post    Posts   @relation(fields: [postId], references: [postId])
-  postId  Int     @unique
+  userId  Int @map("userId")
+  user    Users @relation(fields: [userId], references: [userId])
+
+  posts    Posts[]
   
   @@map("Images")
 }
