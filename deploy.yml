@@ -1,0 +1,52 @@
+$ git branch 
+  dev
+* feat
+
+tkrhk@BOOK-JIFRU8652I MINGW64 ~/OneDrive/바탕 화면/2clone/BACK-CT1 (feat)
+$ git pull origin dev
+From github.com:hh99-clone-Team1/BACK-CT1
+ * branch            dev        -> FETCH_HEAD
+Already up to date.
+
+tkrhk@BOOK-JIFRU8652I MINGW64 ~/OneDrive/바탕 화면/2clone/BACK-CT1 (feat)
+$ git push origin dev
+To github.com:hh99-clone-Team1/BACK-CT1.git
+ ! [rejected]        dev -> dev (non-fast-forward)
+error: failed to push some refs to 'github.com:hh99-clone-Team1/BACK-CT1.git'
+hint: Updates were rejected because a pushed branch tip is behind its remote
+hint: counterpart. If you want to integrate the remote changes, use 'git pull'
+hint: before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+
+tkrhk@BOOK-JIFRU8652I MINGW64 ~/OneDrive/바탕 화면/2clone/BACK-CT1 (feat)
+$ git reset --hard origin/dev
+HEAD is now at 1ec29d1 Merge pull request #20 from hh99-clone-Team1/feat
+
+tkrhk@BOOK-JIFRU8652I MINGW64 ~/OneDrive/바탕 화면/2clone/BACK-CT1 (feat)
+$ git stash
+No local changes to save
+
+tkrhk@BOOK-JIFRU8652I MINGW64 ~/OneDrive/바탕 화면/2clone/BACK-CT1 (feat)
+$ git pull origin dev
+From github.com:hh99-clone-Team1/BACK-CT1
+ * branch            dev        -> FETCH_HEAD
+Already up to date.
+
+tkrhk@BOOK-JIFRU8652I MINGW64 ~/OneDrive/바탕 화면/2clone/BACK-CT1 (feat)
+$ git stash pop
+No stash entries found.
+
+tkrhk@BOOK-JIFRU8652I MINGW64 ~/OneDrive/바탕 화면/2clone/BACK-CT1 (feat)
+$ git commit -am "Resolve conflicts"
+On branch feat
+nothing to commit, working tree clean
+
+tkrhk@BOOK-JIFRU8652I MINGW64 ~/OneDrive/바탕 화면/2clone/BACK-CT1 (feat)
+$ git push origin dev
+To github.com:hh99-clone-Team1/BACK-CT1.git
+ ! [rejected]        dev -> dev (non-fast-forward)
+error: failed to push some refs to 'github.com:hh99-clone-Team1/BACK-CT1.git'
+hint: Updates were rejected because a pushed branch tip is behind its remote
+hint: counterpart. If you want to integrate the remote changes, use 'git pull'
+hint: before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
