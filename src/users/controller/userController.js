@@ -30,7 +30,9 @@ export const signUpController = async (req, res, next) => {
         // 이메일 전송 로직
         await sendWelcomeEmail(user.email);
 
-        res.status(201).json({ user, message: '회원가입이 완료되었습니다.' });
+        // user 객체에서 비밀번호를 제외하고 나머지 정보와 메시지를 반환
+        const { password, ...userInfo } = user;
+        res.status(201).json({ ...userInfo, message: '회원가입이 완료되었습니다.' });
     } catch (error) {
         console.error(error);
         next(error);
@@ -63,7 +65,11 @@ export const loginController = async (req, res, next) => {
 export const refreshTokenController = async (req, res, next) => {
     try {
         const { authorization } = req.headers;
-        if (!authorization) return res.status(401).json({ message: 'Refresh Token을 전달받지 못했습니다.' });
+        if (!authorization) {
+            const err = new Error('리프레시 토큰을 전달받지 못했습니다.');
+            err.status = 401;
+            throw err;
+        }
 
         const { accessToken, newRefreshToken } = await UserService.refreshToken(authorization);
 

@@ -8,7 +8,7 @@ export const signUp = async ({ email, nickname, password, birthDay }) => {
     const existingUserByEmail = await UserRepository.findExistingUserByEmail(email);
     if (existingUserByEmail) {
         const err = new Error('이미 사용중인 이메일 주소입니다.');
-        err.status = 401;
+        err.status = 409;
         throw err;
     }
 
@@ -40,14 +40,14 @@ export const login = async (email, password) => {
     const user = await UserRepository.findUserByEmail(email);
     if (!user) {
         const err = new Error('존재하지 않는 이메일입니다.');
-        err.status = 400;
+        err.status = 401;
         throw err;
     }
 
     // argon2를 사용하여 비밀번호를 검증
     const validPassword = await argon2.verify(user.password, password);
     if (!validPassword) {
-        const err = new Error('비밀번호가 올바르지 않습니다.');
+        const err = new Error('비밀번호가 일치하지 않습니다.');
         err.status = 401;
         throw err;
     }
