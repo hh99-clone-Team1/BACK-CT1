@@ -3,14 +3,22 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import PostRouter from './posts/router/posts.router.js';
-import SignUpRouter from './users/signUp/router/signUp.router.js';
+import SignUpRouter from './users/signup/router/signUp.router.js';
 import LogInRouter from './users/login/router/login.router.js';
 import RefreshTokenRouter from './users/login/router/refreshToken.router.js';
+
+import pinRouter from './pins/router/pins.router.js'
 
 import CommentRouter from './comments/router/comments.router.js';
 import LikeRouter from './likes/router/likes.router.js';
 import ImageRouter from './images/router/images.router.js';
 import pinrouter from './pins/router/pins.router.js';
+
+import NodeMailerRouter from './config/email.js';
+
+import logMiddleware from './middlewares/log.middleware.js';
+
+import { logger } from './config/winston/logger.js';
 
 const app = express();
 const PORT = 3000;
@@ -23,14 +31,25 @@ app.use(bodyParser.json());
 app.use(
     cors({
         origin: '*',       // 모든 출처 허용 옵션. true 를 써도 된다.
-        credential: 'true' // 사용자 인증이 필요한 리소스(쿠키 ..등) 접근
+        credentials: 'true' // 사용자 인증이 필요한 리소스(쿠키 ..등) 접근
     }),
 );
 
-// 라우터 설정
+app.use(logMiddleware);
 
-app.use('/', [PostRouter, SignUpRouter, LogInRouter, RefreshTokenRouter, CommentRouter, LikeRouter, ImageRouter, pinrouter]);
+// 라우터 설정
+app.use('/', [PostRouter, SignUpRouter, LogInRouter, RefreshTokenRouter, CommentRouter, LikeRouter, ImageRouter, pinRouter]);
 
 app.listen(PORT, () => {
     console.log(`${PORT} 포트로 서버가 열렸어요!`);
+});
+
+app.get('/', (req, res) => {
+    logger.info('GET /');
+    res.sendStatus(200);
+});
+
+app.get('/error', (req, res) => {
+    logger.error('Error message');
+    res.sendStatus(500);
 });
