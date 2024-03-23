@@ -3,7 +3,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import PostRouter from './posts/router/posts.router.js';
-import SignUpRouter from './users/signUp/router/signUp.router.js';
+import SignUpRouter from './users/signup/router/signUp.router.js';
 import LogInRouter from './users/login/router/login.router.js';
 import RefreshTokenRouter from './users/login/router/refreshToken.router.js';
 import pinRouter from './pins/router/pins.router.js'
