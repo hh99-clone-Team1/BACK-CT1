@@ -1,6 +1,7 @@
 import * as CommentService from '../service/commentService.js';
-import schemas from '../utils/schemas/commentSchema.js';
+import schemas from '../../utils/joi.schemas/commentSchema.js';
 
+// 댓글 스키마
 const [commentSchema, commentDetailSchema] = schemas;
 
 // 댓글 작성
@@ -18,7 +19,7 @@ export const createCommentController = async (req, res, next) => {
 
         const comment = await CommentService.createComment({ postId, userId, content });
 
-        res.status(201).json(comment);
+        res.status(201).json({ message: '댓글이 성공적으로 작성되었습니다.' });
     } catch (error) {
         console.error(error);
         next(error);
@@ -59,7 +60,7 @@ export const updateCommentController = async (req, res, next) => {
 
         const comment = await CommentService.updateComment({ postId, commentId, userId, content });
 
-        res.status(200).json(comment);
+        res.status(200).json(comment.commentId);
     } catch (error) {
         console.error(error);
         next(error);
@@ -80,7 +81,7 @@ export const deleteCommentController = async (req, res, next) => {
 
         await CommentService.deleteComment({ postId, commentId, userId });
 
-        res.status(200).json({ message: '댓글을 삭제하였습니다.' });
+        res.status(200).json({ message: '댓글이 삭제되었습니다.' });
     } catch (error) {
         console.error(error);
         next(error);

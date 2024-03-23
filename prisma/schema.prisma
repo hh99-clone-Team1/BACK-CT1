@@ -25,11 +25,11 @@ model Users {
   introduce String?   @map("introduce")
   web       String?   @map("web")
 
-  
   posts    Posts[]
   comments Comments[]
   pins     Pins[]
   likes    Likes[]
+  images   Images[]
 
   @@map("Users")
 }
@@ -46,9 +46,9 @@ model Posts {
   userId        Int        @map("userId")
   user          Users      @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
-    image   Images?
-    imageId   Int  @map("imageId")
+  image   Images?
 
+  imageId  Int?    @map("imageId") // 선택적 관계를 위해 `Int` 타입도 옵셔널로 변경할 수 있습니다.
 
 
 
@@ -58,6 +58,7 @@ model Posts {
   
   @@map("Posts")
 }
+
 
 
 model Comments{
@@ -100,12 +101,15 @@ model Pins{
 }
 
 
-model Images{
-  imageId Int       @id @default(autoincrement()) @map("imageId")
-  url     String    @map("url")
+model Images {
+  imageId Int @id @default(autoincrement()) @map("imageId")
+  url     String @map("url")
 
-  post    Posts   @relation(fields: [postId], references: [postId])
-  postId  Int     @unique
+  userId  Int @map("userId")
+  user    Users @relation(fields: [userId], references: [userId])
+
+  post    Posts? @relation(fields: [postId], references: [postId])
+  postId  Int?   @unique
   
   @@map("Images")
 }

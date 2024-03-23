@@ -2,6 +2,7 @@ import * as CommentRepository from '../repository/commentRepository.js';
 
 // 댓글 작성
 export const createComment = async ({ postId, userId, content }) => {
+    // 댓글이 작성된 게시글이 있는지 조회
     const post = await CommentRepository.checkPostExists({ postId: +postId });
     if (!post) {
         const err = new Error('존재하지 않는 게시글입니다.');
@@ -23,9 +24,9 @@ export const readComment = async ({ postId }) => {
     }
     const comments = await CommentRepository.readComment({ postId });
 
-    return comments.map((comment) => ({
+    return comments.map(({ user, ...comment }) => ({
         ...comment,
-        nickname: comment.user.nickname,
+        nickname: user.nickname, // user 객체의 nickname을 최상위로 옮깁니다.
     }));
 };
 
