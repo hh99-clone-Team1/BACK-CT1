@@ -15,7 +15,7 @@ jobs:
 
         strategy:
             matrix:
-                node-version: 18.x.x
+                node-version: v18.x.x
 
         steps:
             - name: Checkout source code.
