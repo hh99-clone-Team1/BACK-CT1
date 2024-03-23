@@ -1,52 +1,50 @@
-$ git branch 
-  dev
-* feat
+# This workflow will do a clean install of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
-tkrhk@BOOK-JIFRU8652I MINGW64 ~/OneDrive/바탕 화면/2clone/BACK-CT1 (feat)
-$ git pull origin dev
-From github.com:hh99-clone-Team1/BACK-CT1
- * branch            dev        -> FETCH_HEAD
-Already up to date.
+name: deploy
 
-tkrhk@BOOK-JIFRU8652I MINGW64 ~/OneDrive/바탕 화면/2clone/BACK-CT1 (feat)
-$ git push origin dev
-To github.com:hh99-clone-Team1/BACK-CT1.git
- ! [rejected]        dev -> dev (non-fast-forward)
-error: failed to push some refs to 'github.com:hh99-clone-Team1/BACK-CT1.git'
-hint: Updates were rejected because a pushed branch tip is behind its remote
-hint: counterpart. If you want to integrate the remote changes, use 'git pull'
-hint: before pushing again.
-hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+on:
+    push:
+        branches: [dev]
+    pull_request:
+        branches: [dev]
 
-tkrhk@BOOK-JIFRU8652I MINGW64 ~/OneDrive/바탕 화면/2clone/BACK-CT1 (feat)
-$ git reset --hard origin/dev
-HEAD is now at 1ec29d1 Merge pull request #20 from hh99-clone-Team1/feat
+jobs:
+    build:
+        runs-on: ubuntu-22.04
 
-tkrhk@BOOK-JIFRU8652I MINGW64 ~/OneDrive/바탕 화면/2clone/BACK-CT1 (feat)
-$ git stash
-No local changes to save
+        strategy:
+            matrix:
+                node-version: [18.19.1]
 
-tkrhk@BOOK-JIFRU8652I MINGW64 ~/OneDrive/바탕 화면/2clone/BACK-CT1 (feat)
-$ git pull origin dev
-From github.com:hh99-clone-Team1/BACK-CT1
- * branch            dev        -> FETCH_HEAD
-Already up to date.
+        steps:
+            - name: Checkout source code.
+              uses: actions/checkout@v2
 
-tkrhk@BOOK-JIFRU8652I MINGW64 ~/OneDrive/바탕 화면/2clone/BACK-CT1 (feat)
-$ git stash pop
-No stash entries found.
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v2
+              with:
+                  node-version: ${{ matrix.node-version }}
 
-tkrhk@BOOK-JIFRU8652I MINGW64 ~/OneDrive/바탕 화면/2clone/BACK-CT1 (feat)
-$ git commit -am "Resolve conflicts"
-On branch feat
-nothing to commit, working tree clean
+            - name: Check Npm -v
+              run: npm -v
 
-tkrhk@BOOK-JIFRU8652I MINGW64 ~/OneDrive/바탕 화면/2clone/BACK-CT1 (feat)
-$ git push origin dev
-To github.com:hh99-clone-Team1/BACK-CT1.git
- ! [rejected]        dev -> dev (non-fast-forward)
-error: failed to push some refs to 'github.com:hh99-clone-Team1/BACK-CT1.git'
-hint: Updates were rejected because a pushed branch tip is behind its remote
-hint: counterpart. If you want to integrate the remote changes, use 'git pull'
-hint: before pushing again.
-hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+            - name: create env file
+              working-directory: ./
+              run: |
+                  pwd
+                  touch .env
+                  echo DB_URL=${{ secrets.DB_URL }} >> .env
+                  echo ACESS_TOKEN=${{ secrets.ACESS_TOKEN }} >> .env
+                  echo REFRESG_TOKEN=${{ secrets.REFRESG_TOKEN }} >> .env
+                  echo AWS_ACCESS=${{ secrets.AWS_ACCESS }} >> .env
+                  echo AWS_SECRET_ACCESS=${{ secrets.AWS_SECRET_ACCESS }} >> .env
+                  echo BUCKET=${{ secrets.BUCKET }} >> .env
+
+                  cat .env
+
+            - name: build server files
+              working-directory: ./
+              run: |
+                  yarn
+                  yarn run build
