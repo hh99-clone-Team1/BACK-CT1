@@ -34,4 +34,7 @@ router.put('/posts/:postId', authMiddleware, updatePostController);
 // 게시글 삭제
 router.delete('/posts/:postId', authMiddleware, deletePostController);
 
+
+
+
 export default router;
