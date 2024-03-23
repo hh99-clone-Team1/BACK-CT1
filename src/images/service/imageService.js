@@ -3,15 +3,15 @@ import * as imageRepository from '../repository/imageRepository.js';
 
 // AWS S3 설정
 const s3 = new AWS.S3({
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    accessKeyId: process.env.AWS_S3_ACCESS_KEY,
+    secretAccessKey: process.env.AWS_S3_SECRET_ACCESS_KEY,
 });
 
 // s3에 이미지 업로드
 export const uploadImage = async (file, userId) => {
     try {
         const params = {
-            Bucket: process.env.AWS_BUCKET_NAME,
+            Bucket:'rosa-images-1',
             Key: `${userId}/${Date.now().toString()}-${file.originalname}`, // Include userId in the S3 Key
             Body: file.buffer,
             ContentType: file.mimetype,

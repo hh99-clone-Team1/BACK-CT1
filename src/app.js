@@ -12,6 +12,7 @@ import pinRouter from './pins/router/pins.router.js'
 import CommentRouter from './comments/router/comments.router.js';
 import LikeRouter from './likes/router/likes.router.js';
 import ImageRouter from './images/router/images.router.js';
+import pinrouter from './pins/router/pins.router.js';
 
 import NodeMailerRouter from './config/email.js';
 

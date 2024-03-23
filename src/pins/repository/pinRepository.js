@@ -9,8 +9,6 @@ export const createPin = async ({ postId, userId }) => {
     });
 };
 
-
-
 export const listPins = async ({userId}) => {
     const pins = await prisma.pins.findMany({
         where: {
@@ -30,9 +28,6 @@ export const listPins = async ({userId}) => {
       });return pins
 } 
 
-
-
-
 export const deletePin = async ({pinId}) => {
     const badPin = await prisma.pins.delete({
         where: {
@@ -40,5 +35,4 @@ export const deletePin = async ({pinId}) => {
         },
       });
 }
-
 
