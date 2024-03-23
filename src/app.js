@@ -6,7 +6,7 @@ import PostRouter from './posts/router/posts.router.js';
 import SignUpRouter from './users/signUp/router/signUp.router.js';
 import LogInRouter from './users/login/router/login.router.js';
 import RefreshTokenRouter from './users/login/router/refreshToken.router.js';
-
+import pinRouter from './pins/router/pins.router.js'
 import CommentRouter from './comments/router/comments.router.js';
 import LikeRouter from './likes/router/likes.router.js';
 import ImageRouter from './images/router/images.router.js';
@@ -27,7 +27,7 @@ app.use(
 );
 
 // 라우터 설정
-app.use('/', [PostRouter, SignUpRouter, LogInRouter, RefreshTokenRouter, CommentRouter, LikeRouter, ImageRouter]);
+app.use('/', [PostRouter, SignUpRouter, LogInRouter, RefreshTokenRouter, CommentRouter, LikeRouter, ImageRouter,pinRouter]);
 
 app.listen(PORT, () => {
     console.log(`${PORT} 포트로 서버가 열렸어요!`);
