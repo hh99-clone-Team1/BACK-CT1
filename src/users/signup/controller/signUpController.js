@@ -23,6 +23,8 @@ export const signUpController = async (req, res, next) => {
 
         const user = await SignUpService.signUp(value);
 
+        console.log(value);
+
         res.status(201).json(user);
     } catch (error) {
         console.error(error);
