@@ -17,6 +17,8 @@ import NodeMailerRouter from './config/email.js';
 
 import logMiddleware from './middlewares/log.middleware.js';
 
+import { logger } from './config/winston/logger.js';
+
 const app = express();
 const PORT = 3000;
 
@@ -39,4 +41,14 @@ app.use('/', [PostRouter, SignUpRouter, LogInRouter, RefreshTokenRouter, Comment
 
 app.listen(PORT, () => {
     console.log(`${PORT} 포트로 서버가 열렸어요!`);
+});
+
+app.get('/', (req, res) => {
+    logger.info('GET /');
+    res.sendStatus(200);
+});
+
+app.get('/error', (req, res) => {
+    logger.error('Error message');
+    res.sendStatus(500);
 });
