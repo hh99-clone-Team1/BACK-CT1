@@ -1,0 +1,45 @@
+name: deploy
+
+on:
+    push:
+        branches: dev
+    pull_request:
+        branches: dev
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        strategy:
+            matrix:
+                node-version: [18.x]
+
+        steps:
+            - uses: actions/checkout@v3
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v3
+              with:
+                  node-version: ${{ matrix.node-version }}
+
+            - name: Check Npm -v
+              run: npm -v
+
+            - name: create env file
+              working-directory: ./
+              run: |
+                  pwd
+                  touch .env
+                  echo DB_URL=${{ secrets.DB_URL }} >> .env
+                  echo ACESS_TOKEN=${{ secrets.ACESS_TOKEN }} >> .env
+                  echo REFRESG_TOKEN=${{ secrets.REFRESG_TOKEN }} >> .env
+                  echo AWS_ACCESS=${{ secrets.AWS_ACCESS }} >> .env
+                  echo AWS_SECRET_ACCESS=${{ secrets.AWS_SECRET_ACCESS }} >> .env
+                  echo BUCKET=${{ secrets.BUCKET }} >> .env
+
+                  cat .env
+
+            - name: build server files
+              working-directory: ./
+              run: |
+                  yarn
+                  yarn run build

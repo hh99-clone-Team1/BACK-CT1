@@ -13,7 +13,7 @@ export const createPostController = async (req, res, next) => {
 
         // 게시물 생성
         const post = await postService.createPost({ userId, title, content, link, imageId });
-        res.status(201).json({ post });
+        res.status(201).json({ message: '게시물이 등록되었습니다' });
     } catch (error) {
         console.error(error);
         next(error);
