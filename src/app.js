@@ -3,21 +3,14 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import PostRouter from './posts/router/posts.router.js';
-import SignUpRouter from './users/signup/router/signUp.router.js';
-import LogInRouter from './users/login/router/login.router.js';
-import RefreshTokenRouter from './users/login/router/refreshToken.router.js';
-
+import UserRouter from './users/router/userRouter.js';
 import pinRouter from './pins/router/pins.router.js';
-
 import CommentRouter from './comments/router/comments.router.js';
 import LikeRouter from './likes/router/likes.router.js';
 import ImageRouter from './images/router/images.router.js';
-import pinrouter from './pins/router/pins.router.js';
 
-import NodeMailerRouter from './config/email.js';
-
+import NodeMailerRouter from './config/sendEmail.js';
 import logMiddleware from './middlewares/log.middleware.js';
-
 import { logger } from './config/winston/logger.js';
 
 const app = express();
@@ -38,16 +31,7 @@ app.use(
 app.use(logMiddleware);
 
 // 라우터 설정
-app.use('/', [
-    PostRouter,
-    SignUpRouter,
-    LogInRouter,
-    RefreshTokenRouter,
-    CommentRouter,
-    LikeRouter,
-    ImageRouter,
-    pinRouter,
-]);
+app.use('/', [PostRouter, UserRouter, CommentRouter, LikeRouter, ImageRouter, pinRouter, NodeMailerRouter]);
 
 app.listen(PORT, () => {
     console.log(`${PORT} 포트로 서버가 열렸어요!`);

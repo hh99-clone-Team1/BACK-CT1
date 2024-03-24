@@ -1,4 +1,3 @@
-// logMiddleware.js
 export default function logMiddleware(req, res, next) {
     try {
         console.log('Received Request:', req.method, req.path);
