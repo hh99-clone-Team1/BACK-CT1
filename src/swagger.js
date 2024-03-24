@@ -1,17 +1,31 @@
-import swaggerUi from 'swagger-ui-express';
-import swaggerJsdoc from 'swagger-jsdoc';
+import swaggerAutogen from 'swagger-autogen';
 
 const options = {
     swaggerDefinition: {
         openapi: '3.0.0',
         info: {
-            title: 'Test API',
+            title: 'My API',
             version: '1.0.0',
-            description: 'Test API with express',
+            description: 'a REST API using swagger and express.',
         },
         basePath: '/',
+        servers: [
+            {
+                url: 'http://localhost:3000',
+            },
+        ],
     },
-    apis: ['./src/routes/*.js', './src/db/models/*.js'],
+    apis: [],
+    securityDefinitions: {
+        bearerAuth: {
+            type: 'http',
+            scheme: 'bearer',
+            in: 'header',
+            bearerFormat: 'JWT',
+        },
+    },
 };
-const specs = swaggerJsdoc(options);
-export { swaggerUi, specs };
+const outputFile = './swagger-output.json';
+const endpointsFiles = ['./src/app.js'];
+
+swaggerAutogen(outputFile, endpointsFiles, options);

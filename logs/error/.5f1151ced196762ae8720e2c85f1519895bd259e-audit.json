@@ -6,9 +6,15 @@
     "auditLog": "logs\\error\\.5f1151ced196762ae8720e2c85f1519895bd259e-audit.json",
     "files": [
         {
+<<<<<<<<< Temporary merge branch 1
             "date": 1711224272485,
             "name": "logs\\error\\2024-03-24.error.log",
             "hash": "ef88e0075f66bf729f80cb99414cece5d72316e1cefc3ceefa676870222242c8"
+=========
+            "date": 1711274960379,
+            "name": "logs\\error\\2024-03-24.error.log",
+            "hash": "cbecf8102e1463acb824d887faa69cd48c23beb0f168d83d1249a443d6684ede"
+>>>>>>>>> Temporary merge branch 2
         }
     ],
     "hashType": "sha256"

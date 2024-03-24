@@ -12,6 +12,9 @@ import NodeMailerRouter from './config/sendEmail.js';
 import logMiddleware from './middlewares/log.middleware.js';
 import { logger } from './config/winston/logger.js';
 
+import swaggerUi from 'swagger-ui-express';
+import swaggerFile from './swagger-output.json' assert { type: 'json' }; // Swagger JSON 문서 import
+
 const app = express();
 const PORT = 3000;
 
@@ -28,6 +31,7 @@ app.use(
 );
 
 app.use(logMiddleware);
+app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerFile)); // Swagger UI 미들웨어 사용
 
 // 라우터 설정
 app.use('/', [PostRouter, UserRouter, CommentRouter, LikeRouter, ImageRouter, NodeMailerRouter]);
