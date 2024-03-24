@@ -367,10 +367,10 @@ available-typed-arrays@^1.0.7:
   dependencies:
     possible-typed-array-names "^1.0.0"
 
-aws-sdk@^2.1582.0:
-  version "2.1582.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1582.0.tgz#194576a4137b63bc8225264794bfb4bc3c5e3450"
-  integrity sha512-oPSk5e1D0oegX3lC+pUIKmI5e4depLi0+9fU7C73KDq65nq8NmdehpbytPHGPqfftqfa3FTEXb2yUPA4A9wM9w==
+aws-sdk@^2.1581.0:
+  version "2.1584.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1584.0.tgz#3ffe7e9f2ae42587d80721cf17b4a93d2dda692c"
+  integrity sha512-57Qizb+bLOhrBLWQSWw6WXTtbO/lFKzLouHxTfm/QeXm38gs0Q0knFxhdH+sWc/DPPJYSRGy7MNiuQcmsq5zxA==
   dependencies:
     buffer "4.9.2"
     events "1.1.1"
@@ -692,8 +692,7 @@ events@3.3.0:
   resolved "https://registry.yarnpkg.com/events/-/events-3.3.0.tgz#31a95ad0a924e2d2c419a813aeb2c4e878ea7400"
   integrity sha512-mQw+2fkQbALzQ7V0MY0IqdnXNOeTtP4r0lN9z7AAawCXgqea7bDii20AYrIBrFd/Hx0M2Ocz6S111CaFkUcb0Q==
 
-
-express@^4.19.1:
+express@^4.18.3:
   version "4.19.1"
   resolved "https://registry.yarnpkg.com/express/-/express-4.19.1.tgz#4700635795e911600a45596138cf5b0320e78256"
   integrity sha512-K4w1/Bp7y8iSiVObmCrtq8Cs79XjJc/RU2YYkZQ7wpUu5ZyZ7MtPHkqoMz4pf+mgXfNvo2qft8D9OnrH2ABk9w==

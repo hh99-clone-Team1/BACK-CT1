@@ -4,6 +4,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import PostRouter from './posts/router/posts.router.js';
 import UserRouter from './users/router/userRouter.js';
+import pinRouter from './pins/router/pins.router.js';
 import CommentRouter from './comments/router/comments.router.js';
 import LikeRouter from './likes/router/likes.router.js';
 import ImageRouter from './images/router/images.router.js';
@@ -30,7 +31,7 @@ app.use(
 app.use(logMiddleware);
 
 // 라우터 설정
-app.use('/', [PostRouter, UserRouter, CommentRouter, LikeRouter, ImageRouter, NodeMailerRouter]);
+app.use('/', [PostRouter, UserRouter, CommentRouter, LikeRouter, ImageRouter, pinRouter, NodeMailerRouter]);
 
 app.listen(PORT, () => {
     console.log(`${PORT} 포트로 서버가 열렸어요!`);
@@ -39,6 +40,16 @@ app.listen(PORT, () => {
 app.get('/', (req, res) => {
     logger.info('GET /');
     res.sendStatus(200);
+});
+
+// 테스트용 API 라우터 추가
+app.get('/test', (req, res) => {
+    res.send('This is a test endpoint');
+});
+
+// 테스트용 API 라우터 추가
+app.get('/hi', (req, res) => {
+    res.send('hehe');
 });
 
 app.get('/error', (req, res) => {

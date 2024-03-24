@@ -10,13 +10,6 @@ export const createPost = async ({ userId, title, content, link, imageId }) => {
             link,
             imageId,
         },
-        include: {
-            user: {
-                select: {
-                    nickname: true,
-                },
-            },
-        },
     });
 };
 
@@ -29,19 +22,22 @@ export const getAllPosts = async () => {
             link: true,
             createdAt: true,
             userId: true,
-            imageId: true,
-            user: { select: { nickname: true } }, // user 객체에서 닉네임 선택
+            image: { select: { imageId: true, url: true } },
+            user: { select: { nickname: true } },
         },
         orderBy: {
             createdAt: 'desc',
         },
     });
 
-    // 각 게시물 객체에 사용자의 닉네임을 추가
+    // 각 게시물 객체에 사용자의 닉네임,imageId, url 추가
     if (posts) {
         posts.forEach((post) => {
             post.nickname = post.user.nickname;
             delete post.user;
+            post.imageId = post.image.imageId;
+            post.url = post.image.url;
+            delete post.image;
         });
     }
 
@@ -61,9 +57,8 @@ export const getPostsByUserId = async (userId) => {
             link: true,
             createdAt: true,
             userId: true,
-            imageId: true,
             user: { select: { nickname: true } },
-            image: { select: { url: true } }, // 이미지 객체에서 URL 선택
+            image: { select: { imageId: true, url: true } },
         },
         orderBy: {
             createdAt: 'desc',
@@ -74,6 +69,10 @@ export const getPostsByUserId = async (userId) => {
         posts.forEach((post) => {
             post.nickname = post.user.nickname;
             delete post.user;
+            post.url = post.image.url;
+            post.imageId = post.image.imageId;
+
+            delete post.image;
         });
     }
 
@@ -84,7 +83,13 @@ export const getPostsByUserId = async (userId) => {
 export const getPostByPostId = async (postId, userId) => {
     const post = await prisma.posts.findFirst({
         where: { postId },
-        include: {
+        select: {
+            postId: true,
+            title: true,
+            content: true,
+            link: true,
+            createdAt: true,
+            userId: true,
             user: { select: { nickname: true } },
             image: { select: { imageId: true, url: true } },
             likes: {
@@ -94,67 +99,40 @@ export const getPostByPostId = async (postId, userId) => {
             },
             _count: {
                 select: {
-                    likes: {
-                        where: {
-                            likeCheck: true, // 좋아요가 활성화된 항목만 카운트
-                        },
-                    },
+                    likes: true, // 좋아요 총 개수만 필요하므로 likes 필드만 선택
                 },
             },
         },
     });
 
-    // if (post) {
-    //     const { _count, user, image, likes, ...rest } = post;
-    //     const enhancedPost = {
-    //         ...rest,
-    //         nickname: user.nickname,
-    //         url: image?.url,
-    //         imageId: image?.imageId,
-    //         likeCount: _count.likes,
-    //         isLikedByUser: likes.some((like) => like.userId === userId),
-    //     };
-    //     return enhancedPost;
-    // }
     if (post) {
-        // 각 게시물에 대해 사용자별 좋아요 상태 및 좋아요 총 수 포함하여 반환
-        const isLikedByUser = post.likes.some((like) => like.userId === userId && like.likeCheck);
-        return {
-            ...post,
-            nickname: post.user.nickname,
-            url: post.image?.url,
-            imageId: post.image?.imageId,
-            likeCount: post._count.likes, // 좋아요 총 개수 (likeCheck가 true인 경우만 카운트)
-            isLikedByUser, // 현재 사용자가 좋아요 눌렀는지 여부 (likeCheck를 고려)
-        };
+        post.nickname = post.user.nickname;
+        delete post.user;
+        post.url = post.image.url;
+        post.imageId = post.image.imageId;
+        delete post.image;
+        post.likeCount = post._count.likes; // 좋아요 총 개수 (likeCheck가 true인 경우만 카운트)
+
+        // 현재 사용자가 좋아요를 눌렀는지 여부를 판단하는 로직이 필요
+        if (userId) {
+            const isLikedByUser = await prisma.likes.findFirst({
+                where: {
+                    postId: post.postId,
+                    userId: userId,
+                    likeCheck: true,
+                },
+            });
+
+            post.isLikedByUser = !!isLikedByUser;
+        } else {
+            post.isLikedByUser = false; // 현재 사용자가 없으면 false로 설정
+        }
+
+        return post;
     }
 
     return null;
 };
-// 게시물 상세 조회 : 원래 재훈님 코드
-// export const getPostByPostId = async (postId, userId) => {
-//     const post = await prisma.posts.findFirst({
-//         where: { postId },
-//         select: {
-//             postId: true,
-//             title: true,
-//             content: true,
-//             link: true,
-//             createdAt: true,
-//             userId: true,
-//             user: { select: { nickname: true } },
-//             image: { select: { imageId: true, url: true } },
-//         },
-//     });
-
-//     // // 게시물 정보에 사용자의 닉네임 추가
-//     if (post) {
-//         post.nickname = post.user.nickname;
-//         delete post.user;
-//     }
-
-//     return post;
-// };
 
 //게시물 키워드 검색
 export const searchPostsByKeyword = async (keyword) => {
@@ -168,20 +146,22 @@ export const searchPostsByKeyword = async (keyword) => {
             link: true,
             createdAt: true,
             userId: true,
-            imageId: true,
-            user: { select: { nickname: true } }, // 사용자 객체에서 닉네임 선택
-            image: { select: { url: true } }, // 이미지 객체에서 URL 선택
+            image: { select: { imageId: true, url: true } },
+            user: { select: { nickname: true } },
         },
         orderBy: {
             createdAt: 'desc',
         },
     });
 
-    // 각 게시물 객체에 사용자의 닉네임을 추가
     if (posts) {
         posts.forEach((post) => {
-            post.nickname = post.user.nickname; // 사용자의 닉네임을 게시물 정보에 추가
-            delete post.user; // 사용자 정보는 더 이상 필요하지 않으므로 삭제
+            post.nickname = post.user.nickname;
+            delete post.user;
+
+            post.url = post.image.url;
+            post.url = post.image.url;
+            delete post.image;
         });
     }
 
@@ -190,7 +170,7 @@ export const searchPostsByKeyword = async (keyword) => {
 
 // 게시물 수정
 export const updatePost = async (postId, { title, content, link, imageId }) => {
-    return await prisma.posts.update({
+    const updatedPost = await prisma.posts.update({
         where: {
             postId: postId,
         },
@@ -200,9 +180,29 @@ export const updatePost = async (postId, { title, content, link, imageId }) => {
             link,
             imageId,
         },
+        select: {
+            postId: true,
+            title: true,
+            content: true,
+            link: true,
+            createdAt: true,
+            userId: true,
+            image: { select: { imageId: true, url: true } },
+            user: { select: { nickname: true } },
+        },
     });
-};
 
+    if (updatedPost) {
+        updatedPost.nickname = updatedPost.user.nickname;
+        delete updatedPost.user;
+
+        updatedPost.imageId = updatedPost.image.imageId;
+        updatedPost.url = updatedPost.image.url;
+        delete updatedPost.image;
+    }
+
+    return updatedPost;
+};
 // 게시물 삭제
 
 export const deletePost = async (postId) => {
