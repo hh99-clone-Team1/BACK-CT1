@@ -27,7 +27,7 @@ jobs:
                   script: |
                       cd ~/BACK-CT1
                       git pull origin dev
-                      pm2 restart app.js
+                      pm2 restart src/app.js
               env:
                   DATABASE_URL: ${{ secrets.DB_URL}}
                   ACCESS_TOKEN_SECRET: ${{ secrets.ACESS_TOKEN }}

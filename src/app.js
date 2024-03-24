@@ -59,14 +59,14 @@ app.get('/', (req, res) => {
 });
 
 // // 테스트용 API 라우터 추가
-app.get('/test', (req, res) => {
-    res.send('This is a test endpoint');
-});
+// app.get('/test', (req, res) => {
+//     res.send('This is a test endpoint');
+// });
 
 // // 테스트용 API 라우터 추가
-app.get('/hi', (req, res) => {
-    res.send('hihi');
-});
+// app.get('/hi', (req, res) => {
+//     res.send('hihi');
+// });
 
 app.get('/error', (req, res) => {
     logger.error('Error message');
