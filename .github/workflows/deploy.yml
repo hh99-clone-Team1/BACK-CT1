@@ -25,7 +25,7 @@ jobs:
                   key: ${{ secrets.REMOTE_PRIVATE_KEY }}
                   port: ${{ secrets.REMOTE_SSH_PORT }}
                   script: |
-                      cd /home/ubuntu/pinterest_actionTest
+                      cd ~/BACK-CT1
                       git pull origin dev
                       pm2 restart app.js
               env:
