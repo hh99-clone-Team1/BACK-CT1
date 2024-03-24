@@ -6,7 +6,7 @@ export const uploadImageController = async (req, res, next) => {
         const { userId } = res.locals.user;
         const { imageUrl, imageId } = await imageService.uploadImage(req.file, userId);
         const response = { url: imageUrl, userId, imageId };
-        return res.status(200).json({ message: '이미지가 등록되었습니다' });
+        return res.status(200).json({ response, message: '이미지가 등록되었습니다' });
     } catch (error) {
         console.error(error);
         next(error);
