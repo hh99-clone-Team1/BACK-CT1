@@ -49,7 +49,7 @@ app.get('/test', (req, res) => {
 
 // 테스트용 API 라우터 추가
 app.get('/hi', (req, res) => {
-    res.send('hehe');
+    res.send('ci/cd 성공?!');
 });
 
 app.get('/error', (req, res) => {
