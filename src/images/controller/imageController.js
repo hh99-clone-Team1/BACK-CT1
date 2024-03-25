@@ -21,9 +21,9 @@ export const getImagesByUserIdcontroller = async (req, res, next) => {
 
         return res.status(200).json({ images });
     } catch (error) {
-        if (error.message === '사용자 Id에 해당하는 이미지가 존재하지 않습니다') {
-            return res.status(404).json({ message: '사용자 Id에 해당하는 이미지가 존재하지 않습니다' });
-        }
+        // if (error.message === '사용자 Id에 해당하는 이미지가 존재하지 않습니다') {
+        //    return res.status(404).json({ message: '사용자 Id에 해당하는 이미지가 존재하지 않습니다' });
+        // }
         console.error(error);
         next(error);
     }
