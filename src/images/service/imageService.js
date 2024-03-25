@@ -7,7 +7,7 @@ const s3 = new AWS.S3({
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
 });
 
-// s3에 이미지 업로드
+// S3에 이미지 업로드
 export const uploadImage = async (file, userId) => {
     try {
         const params = {

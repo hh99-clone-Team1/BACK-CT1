@@ -22,9 +22,9 @@ export const getPostsByUserId = async (userId) => {
 // 게시물 상세조회
 export const getPostByPostId = async (postId) => {
     const post = await postRepository.getPostByPostId(postId);
-    if (!post) {
-        throw new Error('존재하지 않는 게시물입니다.');
-    }
+    // if (!post) {
+    //     throw new Error('존재하지 않는 게시물입니다.');
+    // }
     return post;
 };
 

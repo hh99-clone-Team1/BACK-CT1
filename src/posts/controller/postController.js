@@ -13,7 +13,7 @@ export const createPostController = async (req, res, next) => {
 
         // 게시물 생성
         const post = await postService.createPost({ userId, title, content, link, imageId });
-        res.status(201).json({ message: '게시물 등록이 완료되었습니다' });
+        res.status(201).json({ message: '게시물이 등록되었습니다' });
     } catch (error) {
         console.error(error);
         next(error);
@@ -38,9 +38,10 @@ export const getPostsByUserIdController = async (req, res, next) => {
         const posts = await postService.getPostsByUserId(+userId);
         res.status(200).json(posts);
     } catch (error) {
-        if (error.message === '사용자 ID에 해당하는 게시물이 존재하지 않습니다') {
-            return res.status(404).json({ message: '사용자 ID에 해당하는 게시물이 존재하지 않습니다' });
-        }
+        // 아래 if문은 게시물을 올리지 않은 생성자 조회를 했을 때, 빈 배열 출력하도록 주석 처리함.
+        // if (error.message === '사용자 ID에 해당하는 게시물이 존재하지 않습니다') {
+        //     return res.status(404).json({ message: '사용자 ID에 해당하는 게시물이 존재하지 않습니다' });
+        // }
         console.error(error);
         next(error);
     }
@@ -50,7 +51,10 @@ export const getPostsByUserIdController = async (req, res, next) => {
 export const getPostDetailController = async (req, res, next) => {
     try {
         const postId = parseInt(req.params.postId);
-        const post = await postService.getPostByPostId(+postId);
+        const userId = res.locals.user.userId;
+
+        const post = await postService.getPostByPostId(postId, userId);
+
         res.status(200).json(post);
     } catch (error) {
         console.error(error);
