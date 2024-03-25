@@ -1,6 +1,6 @@
 import * as PinRepository from '../repository/pinRepository.js';
 
-export const createPin = async ({ postId, userId }) => {
+export const createpin = async ({ postId, userId }) => {
     return PinRepository.createPin({ postId, userId });
 };
 
