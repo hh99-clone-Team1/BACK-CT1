@@ -1,6 +1,6 @@
 import * as UserService from '../service/userService.js';
 import signUpSchema from '../../utils/joi.schemas/signupSchema.js';
-import sendWelcomeEmail from '../../config/sendEmail.js';
+// import sendWelcomeEmail from '../../config/sendEmail.js';
 
 // 회원가입
 export const signUpController = async (req, res, next) => {
@@ -28,7 +28,7 @@ export const signUpController = async (req, res, next) => {
         const user = await UserService.signUp(value);
 
         // 이메일 전송 로직
-        await sendWelcomeEmail(user.email);
+        // await sendWelcomeEmail(user.email);
 
         // user 객체에서 비밀번호를 제외하고 나머지 정보와 메시지를 반환
         const { password, ...userInfo } = user;
