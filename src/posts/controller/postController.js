@@ -38,9 +38,9 @@ export const getPostsByUserIdController = async (req, res, next) => {
         const posts = await postService.getPostsByUserId(+userId);
         res.status(200).json(posts);
     } catch (error) {
-        if (error.message === '사용자 ID에 해당하는 게시물이 존재하지 않습니다') {
-            return res.status(404).json({ message: '사용자 ID에 해당하는 게시물이 존재하지 않습니다' });
-        }
+        // if (error.message === '사용자 ID에 해당하는 게시물이 존재하지 않습니다') {
+        //     return res.status(404).json({ message: '사용자 ID에 해당하는 게시물이 존재하지 않습니다' });
+        // }
         console.error(error);
         next(error);
     }

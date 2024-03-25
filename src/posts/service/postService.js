@@ -13,9 +13,9 @@ export const getAllPosts = async () => {
 // 생성자 게시물 조회
 export const getPostsByUserId = async (userId) => {
     const posts = await postRepository.getPostsByUserId(userId);
-    if (posts.length === 0) {
-        throw new Error('사용자 ID에 해당하는 게시물이 존재하지 않습니다');
-    }
+    // if (posts.length === 0) {
+    //     throw new Error('사용자 ID에 해당하는 게시물이 존재하지 않습니다');
+    // }
     return posts;
 };
 
