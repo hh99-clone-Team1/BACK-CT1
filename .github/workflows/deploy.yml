@@ -38,7 +38,7 @@ jobs:
                   key: ${{ secrets.REMOTE_PRIVATE_KEY }}
                   port: ${{ secrets.REMOTE_SSH_PORT }}
                   script: |
-                      cd /home/ubuntu/pinterest_actionTest
+                      cd /home/ubuntu/BACK-CT1
                       git pull origin dev
                       pm2 kill || true
                       yarn install --force
