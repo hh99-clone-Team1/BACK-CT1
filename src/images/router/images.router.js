@@ -18,5 +18,4 @@ router.get('/images', authMiddleware, getImagesByUserIdcontroller);
 // 이미지 삭제
 router.delete('/images/:imageId', authMiddleware, deleteImageController);
 
-
 export default router;

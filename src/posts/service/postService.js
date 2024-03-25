@@ -13,15 +13,15 @@ export const getAllPosts = async () => {
 // 생성자 게시물 조회
 export const getPostsByUserId = async (userId) => {
     const posts = await postRepository.getPostsByUserId(userId);
-    if (posts.length === 0) {
-        throw new Error('사용자 ID에 해당하는 게시물이 존재하지 않습니다');
-    }
+    // if (posts.length === 0) {
+    //     throw new Error('사용자 ID에 해당하는 게시물이 존재하지 않습니다');
+    // }
     return posts;
 };
 
 // 게시물 상세조회
-export const getPostByPostId = async (postId) => {
-    const post = await postRepository.getPostByPostId(postId);
+export const getPostByPostId = async (postId, userId) => {
+    const post = await postRepository.getPostByPostId(postId, userId);
     if (!post) {
         throw new Error('존재하지 않는 게시물입니다.');
     }
@@ -50,5 +50,3 @@ export const deletePost = async (postId) => {
     }
     return await postRepository.deletePost(postId);
 };
-
-//

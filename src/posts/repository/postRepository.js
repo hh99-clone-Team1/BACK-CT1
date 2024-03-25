@@ -80,7 +80,7 @@ export const getPostsByUserId = async (userId) => {
 };
 
 //게시물 상세 조회
-export const getPostByPostId = async (postId) => {
+export const getPostByPostId = async (postId, userId) => {
     const post = await prisma.posts.findFirst({
         where: { postId },
         select: {
@@ -92,6 +92,16 @@ export const getPostByPostId = async (postId) => {
             userId: true,
             user: { select: { nickname: true } },
             image: { select: { imageId: true, url: true } },
+            likes: {
+                where: {
+                    likeCheck: true, // 좋아요가 활성화된 항목만 포함
+                },
+            },
+            _count: {
+                select: {
+                    likes: true, // 좋아요 총 개수만 필요하므로 likes 필드만 선택
+                },
+            },
         },
     });
 
@@ -101,9 +111,27 @@ export const getPostByPostId = async (postId) => {
         post.url = post.image.url;
         post.imageId = post.image.imageId;
         delete post.image;
+        post.likeCount = post._count.likes; // 좋아요 총 개수 (likeCheck가 true인 경우만 카운트)
+
+        // 현재 사용자가 좋아요를 눌렀는지 여부를 판단하는 로직이 필요
+        if (userId) {
+            const isLikedByUser = await prisma.likes.findFirst({
+                where: {
+                    postId: post.postId,
+                    userId: userId,
+                    likeCheck: true,
+                },
+            });
+
+            post.isLikedByUser = !!isLikedByUser;
+        } else {
+            post.isLikedByUser = false; // 현재 사용자가 없으면 false로 설정
+        }
+
+        return post;
     }
 
-    return post;
+    return null;
 };
 
 //게시물 키워드 검색
