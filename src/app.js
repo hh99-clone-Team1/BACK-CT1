@@ -42,21 +42,6 @@ app.get('/', (req, res) => {
     res.sendStatus(200);
 });
 
-// 테스트용 API 라우터 추가
-app.get('/test', (req, res) => {
-    res.send('hi its me');
-});
-
-// 테스트용 API 라우터 추가
-app.get('/hi', (req, res) => {
-    res.send('ci/cd 성공?!');
-});
-
-// 테스트용 API 라우터 추가
-app.get('/cicd', (req, res) => {
-    res.send('성공! ');
-});
-
 app.get('/error', (req, res) => {
     logger.error('Error message');
     res.sendStatus(500);
