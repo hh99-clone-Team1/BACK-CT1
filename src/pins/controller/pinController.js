@@ -1,5 +1,5 @@
 import * as PinService from '../service/pinService.js';
-import { prisma } from '../../utils/prisma/index.js' ; // prisma 인스턴스 임포트
+import { prisma } from '../../utils/prisma/index.js'; // prisma 인스턴스 임포트
 
 export const createPinController = async (req, res, next) => {
     try {
@@ -44,9 +44,9 @@ export const deletePinController = async (req, res, next) => {
             return res.status(404).send('핀을 찾을 수 없거나 삭제할 권한이 없습니다.');
         }
 
-        const deletePin = await PinService.deletePin({pinId})
-            // 성공 응답 반환
-            res.send({ message: '핀이 성공적으로 삭제되었습니다.' });
+        const deletePin = await PinService.deletePin({ pinId });
+        // 성공 응답 반환
+        res.send({ message: '핀이 성공적으로 삭제되었습니다.' });
     } catch (error) {
         console.error(error);
         res.status(500).send('핀을 삭제하는 동안 오류가 발생했습니다.');
