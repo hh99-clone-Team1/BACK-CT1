@@ -9,7 +9,7 @@ import CommentRouter from './comments/router/comments.router.js';
 import LikeRouter from './likes/router/likes.router.js';
 import ImageRouter from './images/router/images.router.js';
 
-import NodeMailerRouter from './config/sendEmail.js';
+// import NodeMailerRouter from './config/sendEmail.js';
 import logMiddleware from './middlewares/log.middleware.js';
 import { logger } from './config/winston/logger.js';
 
@@ -31,7 +31,7 @@ app.use(
 app.use(logMiddleware);
 
 // 라우터 설정
-app.use('/', [PostRouter, UserRouter, CommentRouter, LikeRouter, ImageRouter, pinRouter, NodeMailerRouter]);
+app.use('/', [PostRouter, UserRouter, CommentRouter, LikeRouter, ImageRouter, pinRouter]);
 
 app.listen(PORT, () => {
     console.log(`${PORT} 포트로 서버가 열렸어요!`);
