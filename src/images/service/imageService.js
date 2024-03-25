@@ -43,9 +43,9 @@ export const saveImageUrl = async (imageUrl, userId) => {
 // 사용자의 이미지 조회
 export const getImagesByUserId = async (userId) => {
     const images = await imageRepository.getImagesByUserId(userId);
-    if (images.length === 0) {
-        throw new Error('사용자 Id에 해당하는 이미지가 존재하지 않습니다');
-    }
+    // if (images.length === 0) {
+    //     throw new Error('사용자 Id에 해당하는 이미지가 존재하지 않습니다');
+    // }
     return images;
 };
 
