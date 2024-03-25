@@ -44,7 +44,7 @@ app.get('/', (req, res) => {
 
 // 테스트용 API 라우터 추가
 app.get('/test', (req, res) => {
-    res.send('This is a test endpoint');
+    res.send('hi its me');
 });
 
 // 테스트용 API 라우터 추가
