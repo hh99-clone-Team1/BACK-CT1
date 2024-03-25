@@ -3,7 +3,7 @@ import { prisma } from '../../utils/prisma/index.js' ; // prisma 인스턴스 �
 
 export const createPinController = async (req, res, next) => {
     try {
-        const userId = res.locals.user.userId;
+        const userId = res.locals.user;
         const { postId } = req.params;
 
         const pin = await PinService.createpin({ userId, postId });
