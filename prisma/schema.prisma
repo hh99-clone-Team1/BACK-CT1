@@ -46,11 +46,10 @@ model Posts {
   userId        Int        @map("userId")
   user          Users      @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
-  image   Images?
-  imageId  Int?    @map("imageId") // 선택적 관계를 위해 `Int` 타입도 옵셔널로 변경할 수 있습니다.
+  imageId       Int?       @db.Int
+  image         Images?    @relation(fields: [imageId], references: [imageId], onDelete: Cascade)
 
-  image   Images?
-  imageId   Int  @map("imageId")
+
 
   comments  Comments[]
   pins      Pins[]
@@ -108,8 +107,7 @@ model Images {
   userId  Int @map("userId")
   user    Users @relation(fields: [userId], references: [userId])
 
-  post    Posts? @relation(fields: [postId], references: [postId])
-  postId  Int?   @unique
+  posts    Posts[]
   
   @@map("Images")
 }
